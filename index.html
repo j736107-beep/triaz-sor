@@ -1,0 +1,41 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Triage SOR Nowy Targ – kwalifikacja do NiSŁ</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
+<meta name="theme-color" content="#1565c0"><link rel="stylesheet" href="style.css"></head><body>
+<div id="lamp" class="noprint"></div>
+<div id="startDisc" class="modal noprint"><div class="box"><h2>Triage SOR → NiSŁ</h2>
+<p>Narzędzie pomocnicze, <b>niecertyfikowane</b> (nie jest wyrobem medycznym). Wynik jest propozycją; <b>decyzję podejmuje ratownik / lekarz</b>. W razie wątpliwości pacjent zostaje na SOR lub dzwonisz do konsultanta.</p>
+<p>Dane pacjenta nie są nigdzie zapisywane ani wysyłane – znikają po „Nowy pacjent” lub zamknięciu strony.</p>
+<button id="startDiscOk" class="big">Rozumiem</button></div></div>
+<header class="noprint"><div><b>Triage SOR → NiSŁ</b><small>Szpital w Nowym Targu · autor: Wujek Fido</small></div>
+<div><button id="mute" title="Wycisz syrenę">🔊</button> <button id="reset">🆕 Nowy pacjent</button></div></header>
+<main class="noprint" id="form">
+<section><h3>Pacjent</h3><div class="grid">
+<label>Imię i nazwisko <input id="pname" autocomplete="off"></label>
+<label>PESEL / ID <input id="pid" autocomplete="off"></label>
+<label>Wiek* <input id="age" type="number" inputmode="numeric"></label>
+<label>Płeć* <select id="sex"><option value=""></option><option value="K">K</option><option value="M">M</option></select></label>
+<label>Masa ciała [kg]* <input id="weight" type="number" inputmode="decimal"></label>
+<label>Godzina oceny <input id="time" readonly></label>
+<label class="wide">Powód zgłoszenia <input id="complaint" autocomplete="off"></label></div></section>
+<section><h3>Parametry życiowe*</h3><div class="grid">
+<label>RR skurczowe <input id="sbp" type="number" inputmode="numeric"></label>
+<label>RR rozkurczowe <input id="dbp" type="number" inputmode="numeric"></label>
+<label>Tętno [/min] <input id="hr" type="number" inputmode="numeric"></label>
+<label>SpO₂ [%] <input id="spo2" type="number" inputmode="numeric"></label>
+<label>Temperatura [°C] <input id="temp" type="number" step="0.1" inputmode="decimal"></label>
+<label>Oddechy [/min] <input id="rr" type="number" inputmode="numeric"></label>
+<label>GCS (3–15) <input id="gcs" type="number" inputmode="numeric"></label>
+<label>AVPU <select id="avpu"><option value=""></option><option value="A">A – przytomny</option><option value="C">C – nowe splątanie</option><option value="V">V – reaguje na głos</option><option value="P">P – na ból</option><option value="U">U – brak reakcji</option></select></label>
+<label>Ból NRS (0–10) <input id="pain" type="number" inputmode="numeric"></label>
+<label>Glukoza [mg/dl] (opcj.) <input id="glu" type="number" inputmode="numeric"></label>
+<label class="chk"><input id="o2" type="checkbox"> Wymaga tlenu</label></div></section>
+<div id="regions"></div>
+</main>
+<section id="result" class="noprint"></section>
+<div class="noprint actions"><button id="print" class="big" disabled>🖨️ Drukuj raport</button>
+<p class="hint">Przeglądarka nie widzi drukarek – otworzy się okno drukowania z drukarką domyślną komputera (wybierz A4).</p></div>
+<div id="report"></div>
+<script src="engine.js"></script><script src="app.js"></script>
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');</script>
+</body></html>

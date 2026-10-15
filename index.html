@@ -1,22 +1,23 @@
 <!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Triage SOR Nowy Targ – kwalifikacja do NiSŁ</title>
+<title>Triage SOR Nowy Targ – segregacja medyczna</title>
 <link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png"><link rel="apple-touch-icon" href="icon-180.png">
 <meta name="theme-color" content="#1565c0"><link rel="stylesheet" href="style.css"></head><body>
 <div id="lamp" class="noprint"></div>
-<div id="startDisc" class="modal noprint"><div class="box"><h2>Triage SOR → NiSŁ</h2>
+<div id="startDisc" class="modal noprint"><div class="box"><h2>Triage SOR – 5 kolorów</h2>
 <p>Narzędzie pomocnicze, <b>niecertyfikowane</b> (nie jest wyrobem medycznym). Wynik jest propozycją; <b>decyzję podejmuje ratownik / lekarz</b>. W razie wątpliwości pacjent zostaje na SOR lub dzwonisz do konsultanta.</p>
 <p>Dane pacjenta nie są nigdzie zapisywane ani wysyłane – znikają po „Nowy pacjent” lub zamknięciu strony.</p>
 <button id="startDiscOk" class="big">Rozumiem</button></div></div>
-<header class="noprint"><div><b>Triage SOR → NiSŁ</b><small>Szpital w Nowym Targu · autor: Wujek Fido</small></div>
+<header class="noprint"><div><b>Triage SOR (5 kolorów) v2</b><small>Szpital w Nowym Targu · autor: Wujek Fido</small></div>
 <div><button id="mute" title="Wycisz syrenę">🔊</button> <button id="reset">🆕 Nowy pacjent</button></div></header>
 <main class="noprint" id="form">
 <section><h3>Pacjent</h3><div class="grid">
 <label>Imię i nazwisko <input id="pname" autocomplete="off"></label>
 <label>PESEL / ID <input id="pid" autocomplete="off"></label>
-<label>Wiek* <input id="age" type="number" inputmode="numeric"></label>
+<label>Wiek [lata]* <input id="age" type="number" step="0.1" inputmode="decimal" placeholder="niemowlę: 0,5"></label>
 <label>Płeć* <select id="sex"><option value=""></option><option value="K">K</option><option value="M">M</option></select></label>
 <label>Masa ciała [kg]* <input id="weight" type="number" inputmode="decimal"></label>
-<label>Godzina oceny <input id="time" readonly></label>
+<label>Godzina triage <input id="time" type="time"></label>
+<label>Początek objawów* <select id="onset"><option value=""></option><option value="sudden">nagły (minuty)</option><option value="h24">w ciągu 24 h</option><option value="d7">1–7 dni</option><option value="chron">&gt;7 dni / przewlekłe</option></select></label>
 <label class="wide">Powód zgłoszenia <input id="complaint" autocomplete="off"></label></div></section>
 <section><h3>Parametry życiowe*</h3><div class="grid">
 <label>RR skurczowe <input id="sbp" type="number" inputmode="numeric"></label>
@@ -33,6 +34,7 @@
 <div id="regions"></div>
 </main>
 <section id="result" class="noprint"></section>
+<p class="hint noprint" style="max-width:980px;margin:0 auto;padding:0 12px">Kategorie pilności wg § 6 ust. 9 rozporządzenia MZ z 27.06.2019 w sprawie SOR (t.j. Dz.U. 2025 poz. 1646): 🔴 natychmiast · 🟠 do 10 min · 🟡 do 60 min · 🟢 do 120 min · 🔵 do 240 min. Narzędzie nie zastępuje systemu TOPSOR.</p>
 <div class="noprint actions"><button id="print" class="big" disabled>🖨️ Drukuj raport</button>
 <p class="hint">Przeglądarka nie widzi drukarek – otworzy się okno drukowania z drukarką domyślną komputera (wybierz A4).</p></div>
 <div id="report"></div>

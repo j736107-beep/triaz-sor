@@ -159,9 +159,14 @@ function decide(v,checks){
  var c=Object.keys(cons).sort();if((lv===2||lv===3)&&!c.length)c=['internista'];
  var L=LV[lv];
  return {level:L.k,lvl:lv,name:L.n,maxMin:L.min,maxTxt:L.t,reasons:reasons,minor:minor,consult:(lv===2||lv===3)?c:[],news2:n,qsofa:adult?q:null,ped:!adult,alarm:lv<=1,
-  dest:['SOR – obszar resuscytacyjno-zabiegowy, lekarz natychmiast','SOR – obszar terapii, lekarz do 10 min','SOR – obszar terapii / obserwacji','SOR (możliwe skierowanie do POZ/NiSŁ wg regulaminu – § 6 ust. 11)','Skierowanie do NiSŁ (nocna i świąteczna opieka zdrowotna)'][lv]};
+  dest:DEST[lv]};
 }
+var DEST=['SOR – obszar resuscytacyjno-zabiegowy, lekarz natychmiast','SOR – obszar terapii, lekarz do 10 min','SOR – obszar terapii / obserwacji','SOR – obszar terapii (kolor zielony)','Skierowanie do NiSŁ (nocna i świąteczna opieka zdrowotna)'];
+// kolor TOPSOR (jeśli nadany) jest wiążący: czas, termin i miejsce wg TOPSOR
+function applyTopsor(d,tk){if(!d||d.level==='incomplete')return d;var o=Object.assign({},d,{appLevel:d.level,appName:d.name,topsor:null,mismatch:false});
+ var i=-1;LV.forEach(function(l,j){if(l.k===tk)i=j});if(i<0)return o;var L=LV[i];
+ o.topsor=L.k;o.mismatch=L.k!==d.level;o.level=L.k;o.lvl=i;o.name=L.n;o.maxMin=L.min;o.maxTxt=L.t;o.dest=DEST[i];o.alarm=d.alarm||i<=1;o.consult=(i===2||i===3)?(d.consult.length?d.consult:['internista']):[];return o}
 function deadline(t,d){return new Date(t.getTime()+d.maxMin*60000)}
-var api={LV:LV,REGIONS:REGIONS,ITEM:ITEM,PED:PED,pedRange:pedRange,news2:news2,decide:decide,missing:missing,deadline:deadline,LBL:LBL};
+var api={applyTopsor:applyTopsor,DEST:DEST,LV:LV,REGIONS:REGIONS,ITEM:ITEM,PED:PED,pedRange:pedRange,news2:news2,decide:decide,missing:missing,deadline:deadline,LBL:LBL};
 if(typeof module!=='undefined')module.exports=api;else root.TRI=api;
 })(this);

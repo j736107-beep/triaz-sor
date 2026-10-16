@@ -14,8 +14,11 @@ function stopSiren(){try{if(osc)osc.stop()}catch(e){}osc=null}
 function setMute(){$('mute').textContent=muted?'🔇':'🔊';if(muted)stopSiren()}
 $('mute').onclick=function(){muted=!muted;localStorage.setItem('triMute',muted?'1':'0');setMute()};setMute();
 $('startDiscOk').onclick=function(){$('startDisc').style.display='none'};
+var GU=localStorage.getItem('triGluU')==='si'?'si':'conv';
+function gluUI(){$('gluLab').textContent=GU==='si'?'mmol/l':'mg/dl';$('gluU').textContent='⇄ '+(GU==='si'?'mg/dl':'mmol/l')}
+$('gluU').onclick=function(){var x=num('glu');GU=GU==='si'?'conv':'si';localStorage.setItem('triGluU',GU);if(!isNaN(x))$('glu').value=String(GU==='si'?Math.round(x/18.016*10)/10:Math.round(x*18.016)).replace('.',',');gluUI();upd()};gluUI();
 function num(id){var v=$(id).value.trim().replace(',','.');return v===''?NaN:parseFloat(v)}
-function vals(){return{sbp:num('sbp'),dbp:num('dbp'),hr:num('hr'),spo2:num('spo2'),temp:num('temp'),rr:num('rr'),weight:num('weight'),age:num('age'),sex:$('sex').value,avpu:$('avpu').value,gcs:num('gcs'),pain:num('pain'),glu:isNaN(num('glu'))?null:num('glu'),o2:$('o2').checked,onset:$('onset').value}}
+function vals(){return{sbp:num('sbp'),dbp:num('dbp'),hr:num('hr'),spo2:num('spo2'),temp:num('temp'),rr:num('rr'),weight:num('weight'),age:num('age'),sex:$('sex').value,avpu:$('avpu').value,gcs:num('gcs'),pain:num('pain'),glu:isNaN(num('glu'))?null:(GU==='si'?Math.round(num('glu')*18.016):num('glu')),o2:$('o2').checked,onset:$('onset').value}}
 function flagCls(k,v){var x=v[k];if(isNaN(x))return'';var n=T.news2(Object.assign({rr:16,spo2:98,temp:37,sbp:120,hr:70,avpu:'A',gcs:15},(function(){var o={};o[k]=x;return o})()));
  var p=n.parts[{sbp:'sbp',hr:'hr',spo2:'spo2',temp:'temp',rr:'rr'}[k]];return p===undefined?'':p>=3?'bad':p>=1?'warn':'ok'}
 function upd(){var v=vals();['sbp','hr','spo2','temp','rr'].forEach(function(k){$(k).className=flagCls(k,v)});
@@ -46,7 +49,7 @@ function fmt(d){function p(n){return('0'+n).slice(-2)}return p(d.getDate())+'.'+
 function reset(){document.querySelectorAll('#form input,#form select,#topsor').forEach(function(e){if(e.type==='checkbox')e.checked=false;else e.value=''});checks={};tStart=new Date();$('time').value=hm(tStart);$('report').innerHTML='';stopSiren();sirenOn=-1;upd();window.scrollTo(0,0)}
 $('reset').onclick=function(){if(confirm('Wyczyścić dane i zacząć nowego pacjenta?'))reset()};
 function report(){var v=vals(),d=last,tt=ttime(),dl=T.deadline(tt,d),n=d.news2?d.news2.parts:{},P=d.news2?function(k){return n[k]}:function(){return'–'};
- var rows=[['RR',v.sbp+'/'+v.dbp+' mmHg','sbp'],['Tętno',v.hr+' /min','hr'],['SpO₂',v.spo2+' %'+(v.o2?' (tlen)':''),'spo2'],['Temperatura',v.temp+' °C','temp'],['Oddechy',v.rr+' /min','rr'],['Świadomość','GCS '+v.gcs+', AVPU '+v.avpu,'acvpu'],['Ból NRS',v.pain,''],['Glukoza',v.glu==null?'—':v.glu+' mg/dl','']];
+ var rows=[['RR',v.sbp+'/'+v.dbp+' mmHg','sbp'],['Tętno',v.hr+' /min','hr'],['SpO₂',v.spo2+' %'+(v.o2?' (tlen)':''),'spo2'],['Temperatura',v.temp+' °C','temp'],['Oddechy',v.rr+' /min','rr'],['Świadomość','GCS '+v.gcs+', AVPU '+v.avpu,'acvpu'],['Ból NRS',v.pain,''],['Glukoza',v.glu==null?'—':v.glu+' mg/dl ('+(Math.round(v.glu/18.016*10)/10).toString().replace('.',',')+' mmol/l)','']];
  var ON={sudden:'nagły (minuty)',h24:'w ciągu 24 h',d7:'1–7 dni',chron:'>7 dni / przewlekłe'};
  var sym='';T.REGIONS.forEach(function(r){var st=checks[r.id];sym+='<tr><th>'+r.name+'</th><td>'+(st.none?'brak':st.items.map(function(i){return esc(T.ITEM[i].t)}).join('<br>'))+'</td></tr>'});
  var BG={red:'#c62828;color:#fff',orange:'#ef6c00;color:#fff',yellow:'#fbc02d;color:#000',green:'#2e7d32;color:#fff',blue:'#1e88e5;color:#fff'}[d.level];

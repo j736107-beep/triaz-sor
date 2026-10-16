@@ -141,7 +141,7 @@ function decide(v,checks){
  else if(v.temp>=41)add(1,'Hipertermia '+v.temp+' °C');else if(v.temp>39.5&&v.hr>100&&adult)add(1,'Gorączka '+v.temp+' °C z tachykardią '+v.hr+'/min (sepsa?)');
  else if(v.temp>=38.5)add(2,'Gorączka '+v.temp+' °C',"internista");else if(v.temp>=38)add(3,'Gorączka '+v.temp+' °C',"internista");
  // glukoza
- if(v.glu!=null&&!isNaN(v.glu)){if(v.glu<70)add(1,'Hipoglikemia '+v.glu+' mg/dl');else if(v.glu>250)add(2,'Hiperglikemia '+v.glu+' mg/dl');}
+ if(v.glu!=null&&!isNaN(v.glu)){var gm=function(x){return x+' mg/dl ('+(Math.round(x/18.016*10)/10).toString().replace('.',',')+' mmol/l)'};if(v.glu<70)add(1,'Hipoglikemia '+gm(v.glu));else if(v.glu>250)add(2,'Hiperglikemia '+gm(v.glu));}
  // ból
  if(v.pain>=8)add(1,'Ból bardzo silny NRS '+v.pain);else if(v.pain>=5)add(2,'Ból umiarkowany NRS '+v.pain);
  // objawy

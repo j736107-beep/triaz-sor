@@ -29,7 +29,7 @@
 <label>GCS (3–15) <input id="gcs" type="number" inputmode="numeric"></label>
 <label>AVPU <select id="avpu"><option value=""></option><option value="A">A – przytomny</option><option value="C">C – nowe splątanie</option><option value="V">V – reaguje na głos</option><option value="P">P – na ból</option><option value="U">U – brak reakcji</option></select></label>
 <label>Ból NRS (0–10) <input id="pain" type="number" inputmode="numeric"></label>
-<label>Glukoza [mg/dl] (opcj.) <input id="glu" type="number" inputmode="numeric"></label>
+<label>Glukoza [<span id="gluLab">mg/dl</span>] (opcj.) <input id="glu" inputmode="decimal"> <button type="button" id="gluU" title="Przełącz mg/dl ↔ mmol/l (zapamiętywane)">⇄ mmol/l</button></label>
 <label class="chk"><input id="o2" type="checkbox"> Wymaga tlenu</label></div></section>
 <div id="regions"></div>
 </main>
